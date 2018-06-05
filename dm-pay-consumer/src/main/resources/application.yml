@@ -1,0 +1,70 @@
+server:
+  port: 7300
+spring:
+  application:
+    name: dm-pay-consumer
+  redis:
+    database: 0
+    host: 192.168.9.151
+    port: 6379
+    user: root
+    password: 123456
+    timeout: 3000
+  sleuth:
+    sampler:
+      percentage: 1.0
+  rabbitmq:
+    host: 192.168.9.151
+    port: 5672
+    username: guest
+    password: guest
+#  activemq:
+#    broker-url: tcp://192.168.9.151:61616?jms.optimizeAcknowledge=true&jms.optimizeAcknowledgeTimeOut=30000&jms.redeliveryPolicy.maximumRedeliveries=10
+#    user: admin
+#    password: admin
+#    packages:
+#      trust-all: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:123456@192.168.9.151:7776/eureka/
+#      defaultZone: http://root:123456@discovery:9000/eureka/
+#      defaultZone: http://root:123456@localhost:9000/eureka/
+# shop-goods-provider.ribbon.NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+hystrix:
+  command:
+    defalut:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+logging:
+  level: debug
+
+feign:
+  hystrix:
+    enabled: false #禁用容错处理
+
+#配置微信支付的参数
+wxpay:
+  appID: wxab8acb865bb1637e
+  mchID: 11473623
+  key: 2ab9071b06b9f739b950ddb41db2690d
+  notifyUrl: http://j19h691179.iok.la:14828/api/wxpay/notify
+  successUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s
+  failUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s&amp;state=0
+
+#配置支付宝支付参数
+alipay: 
+  appID: 2016082100303861
+  rsaPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDcdVCEHuy+6AmGRiPm908YPjUWHIycyqE/6WBit1ZUAfpqlzFD9NM3J8o8kifuWF4MIw9P/JtS0sKHcTd5nhYVHLJxvN9vV3CtYanaNCUwt31R+N9/OIHWFBDldAq9RdZBJq6+64sVv9h06fNJrsqYPXAjEArbGR5l0AgZXVjXpBxL6UyS0tpBa7NMUK8xEtzMV/Ra+IkzNX6wDYdVA+QkrbxQamgutGkToWCQVXvHyVknMr+bLr7CZrENaiIgD5P5mcSaoQM3pSrQtNApBy/pndMSVguOgU1BBYb0TCyEQPUHJVgKcLb4BQC+Ny7tSgihmQZl9z54WOk6F0sauSXdAgMBAAECggEAOC4ZN6Id2MSO8M3dBlXNrTLlGl5qIuasUvopGt73u+7JHvKqllPEo5CbQ/ZHAME6LkOc+lg4SNH2ysc6SN7VZ8npW3yzP897omN6AmY5eAG6iPIwGl6PD7wLVj3NItCyOeYer/6ccg1yntCjtAo8DLHTaswCyDTNf0qVVclpA4KQpwmOJcAPwodHluDOuwR+h+/d25ZeD/L9QT7XYdgraAJRqWsR1pujKOLf+kyUZTxs8t0sAVS0XdfhOaifkvXzBF1S3tZxPhNa483im43OS6P5pZCVlZW3ru6Si39yHeYAYoaNAKqPNrTdDPw9exbciOO/DPXeQct1Ocpcxc6CbQKBgQD0LsW05BGC8nWweXkj97qdrnDNczF2DAefOxqLB9Z7I4jPPpnPsmSv9Giy+tLfQEK+I1sNqyoehXBCVbNk+RFTt1sJY9qLQd9jPV18ZSUPl3d+/VwhDLSDPouc3LDeNlmdz3BmaPAZ3g/7gVCZEdYCfcMIlxz9YrHvAF46BOfTuwKBgQDnIJ2K6Mz/h2JhlNzyCM+9EFi1RNFVvB/rvyMjSVY51g9s4cuEnAyebVmPQwELgo/oNFrseBfKhVb0W597akL3+v5JeX6+5F2bsBXaayvfpLhEFgux2b/0gWRDbNkhnd7IeKOVgPOYEdEIdYzUj46UHZu2tDaHK9oootn/tyz3RwKBgQDlOxN3YbPezmcVqLPExEd4x8410TJZs6lkHkQoyM7dAtroU8hpZvuHA1dWzokv9E+z19Ue29TKmlJss6+Z1wghIzxfcFI18T0ZGP6uTPWh0Xvox0i57gd4PjsqozOXKEaxE5BdU54zanhuj1Nun4PdCtsRMWuRpBmOWTYcGYbZCQKBgFRVUUbDRTGjy6EBeVETKAG7ejLCJoPa/ea+OmsAsmauFbjL9r+vVOdlzPz6HOJ/RFUc7WRFOaEa4CyPVfTpRABJ5AkZPMcYepN5P7AP1NVovBeT17aQVns3z0bO67dZbFXHtyCxCbEeJyCoC7fvnb2rxAp5XUAbHyIesd6djtm3AoGALyRPVYEDCa6abo8lYuVY+7qNHJDg5AS1ddBc9YWNNvLzMzXFPjwcpHwVV9Gol7MX1dcXVwaB/Vti61fVsZir2FYEpgB1l1JdulfPNqLglDEjSynenGt1RM/faRje59mNqt73ZU5YuDd1x/i74HE7OjSQP418rOFdONT8EufUams=
+  notifyUrl: http://j19h691179.iok.la:14828/api/alipay/notify
+  returnUrl: http://j19h691179.iok.la:14828/api/alipay/return
+  url: https://openapi.alipaydev.com/gateway.do
+  charset: UTF-8
+  format: json
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyrLDBBEGKbGsSPldZHqqAzQaEa63H/GNjPrcOyILs3r+aIVtFtK3irixCvvkwszn/y1AKcWCpenI6NeDqNtG82xkswX85LNKvBDWRrWL0wIZmibJ5PQwMcbTIQqFqMYcPzkKSilC9Ch8gpCUoWMhnu4t3ZKeJcyAbFMMuwKirq6DcSR5B9UrQRdddr7y9t3u6ViU+AGlEYEoYErx8PMIFQ8WxtdyKdSdU1/f9LhO2tzcu6JVuYEgc3VR5mXLI0+kU+MWcn7cy1Mm6Jjcm3otLssKMWmxKcPlmGy8moI+5cgG+vVRYkWfGt+y99sY68BdugflzHPCMqhHth1ecowcjwIDAQAB
+  logPath: /logs
+  signType: RSA2
+  paymentSuccessUrl: http://www.qg.com/success.html?orderNo=%s&amp;id=%s
+  paymentFailureUrl: http://www.qg.com/fail.html?orderNo=%s&amp;id=%s&amp;state=0
