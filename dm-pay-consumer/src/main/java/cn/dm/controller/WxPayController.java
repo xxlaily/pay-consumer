@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Administrator on 2018-5-22.
  */
 @Controller
-@RequestMapping("/api/wxpay")
+@RequestMapping("/api/v/wxpay")
 public class WxPayController {
     //**根据订单号生成二维码**//
     private Logger logger = Logger.getLogger(WxPayController.class);
@@ -78,7 +78,7 @@ public class WxPayController {
             result.put("itemName", order.getItemName());
             result.put("orderNo", order.getOrderNo());
             //获取订单总金额
-            result.put("amount", order.getTotalAmount());
+            result.put("totalAmount", order.getTotalAmount());
             //二维码对应的url
             result.put("codeUrl", r.get("code_url"));
             return DtoUtil.returnDataSuccess(result);

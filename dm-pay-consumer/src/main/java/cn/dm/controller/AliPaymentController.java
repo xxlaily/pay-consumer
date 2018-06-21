@@ -32,7 +32,7 @@ import java.util.Map;
  * @author hduser
  */
 @Controller
-@RequestMapping("/api/alipay")
+@RequestMapping("/api/v/alipay")
 public class AliPaymentController {
 
     private Logger logger = Logger.getLogger(AliPaymentController.class);

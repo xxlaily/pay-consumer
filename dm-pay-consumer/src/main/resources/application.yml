@@ -50,9 +50,9 @@ wxpay:
   appID: wxab8acb865bb1637e
   mchID: 11473623
   key: 2ab9071b06b9f739b950ddb41db2690d
-  notifyUrl: http://j19h691179.iok.la:14828/api/wxpay/notify
-  successUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s
-  failUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s&amp;state=0
+  notifyUrl: http://web.kgc.cn/pay/api/v/wxpay/notify
+#  successUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s
+#  failUrl: http://j19h691179.iok.la:15614/index.html#/orderpaystate?orderNo=%s&amp;id=%s&amp;state=0
 
 #配置支付宝支付参数
 alipay: 
