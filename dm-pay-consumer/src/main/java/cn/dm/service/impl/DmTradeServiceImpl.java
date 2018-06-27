@@ -105,4 +105,9 @@ public class DmTradeServiceImpl implements DmTradeService {
     public void testRabbitMq(DmItemMessageVo dmItemMessageVo) throws Exception {
         logger.info(">>>>>>>>>>>>>>>>>收到消息"+ dmItemMessageVo.getOrderNo());
     }
+
+    @Override
+    public boolean processed(String orderNo, Integer flag) throws Exception {
+        return restDmOrderClient.processed(orderNo, flag);
+    }
 }

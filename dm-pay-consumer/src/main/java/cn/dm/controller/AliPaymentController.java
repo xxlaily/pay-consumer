@@ -55,6 +55,7 @@ public class AliPaymentController {
         //根据订单编号获取订单信息
         DmOrder order = dmTradeService.loadDmOrderByOrderNo(orderNo);
         if (!EmptyUtils.isEmpty(order)) {
+            logger.info("[prePay]" + "获取订单信息成功，订单编号为：" + order.getOrderNo());
             Map<String, Object> result = new HashMap<String, Object>();
             result.put("orderNo", orderNo);
             result.put("itemId", order.getItemId());
@@ -90,6 +91,9 @@ public class AliPaymentController {
 
         // 封装请求支付信息
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
+        logger.info("[pay]" + "商户订单编号：" + WIDout_trade_no);
+        logger.info("[pay]" + "订单名称：" + WIDsubject);
+        logger.info("[pay]" + "付款金额：" + WIDtotal_amount);
         model.setOutTradeNo(WIDout_trade_no);
         model.setSubject(WIDsubject);
         model.setTotalAmount(WIDtotal_amount);
@@ -104,6 +108,7 @@ public class AliPaymentController {
         try {
             // 调用SDK生成表单
             form = client.pageExecute(alipay_request).getBody();
+            logger.info("[pay]" + "支付宝API生成的form表单内容：" + form);
             response.setContentType("text/html;charset="
                     + alipayConfig.getCharset());
             response.getWriter().write(form);// 直接将完整的表单html输出到页面
@@ -167,15 +172,18 @@ public class AliPaymentController {
             //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
             boolean verify_result = dmTradeService.syncVerifyResult(requestParams);
             if (verify_result) {//验证成功
-//                if(!dmTradeService.processed(out_trade_no)){
-                if (1 == 1) {
+                logger.info("[callback]" + "该笔订单支付成功");
+                if(!dmTradeService.processed(out_trade_no,1)){
+                    logger.info("[callback]" + "此笔订单未支付过：" + out_trade_no);
                     dmTradeService.insertTrade(out_trade_no, trade_no);
+                    logger.info("[callback]" + "系统业务处理完成，订单编号为：" + out_trade_no);
                 }
                 String id = dmTradeService.loadDmOrderByOrderNo(out_trade_no).getId().toString();
                 //提示支付成功
                 response.sendRedirect(String.format(alipayConfig.getPaymentSuccessUrl(), out_trade_no, id));
             } else {
                 //提示支付失败
+                logger.info("[callback]" + "支付失败，订单编号：" + out_trade_no);
                 response.sendRedirect(alipayConfig.getPaymentFailureUrl());
             }
         } catch (AlipayApiException e) {

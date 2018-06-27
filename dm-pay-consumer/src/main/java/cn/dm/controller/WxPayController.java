@@ -64,6 +64,7 @@ public class WxPayController {
         if (order == null || order.getOrderType() != 0) {
             throw new BaseException(PayErrorCode.PAY_ORDER_CODE);
         }
+        logger.info("[createQcCode]" + "获取订单信息成功，订单编号为：" + order.getOrderNo());
         data.put("body", "微信订单支付");
         data.put("out_trade_no", orderNo);
         data.put("device_info", "");
@@ -137,10 +138,10 @@ public class WxPayController {
                 String transactionId = params.get("transaction_id");
                 //获取商户订单号
                 String outTradeNo = params.get("out_trade_no");
-//                    if (dmTradeService.processed(outTradeNo)) {
-                if (1 == 1) {
-                    logger.info("修改订单状态====================================");
+                if (dmTradeService.processed(outTradeNo, 0)) {
+                    logger.info("[paymentCallBack]" + "订单" + outTradeNo + "已经支付成功！可以开始修改系统自身业务了");
                     dmTradeService.insertTrade(outTradeNo, transactionId);
+                    logger.info("[paymentCallBack]" + "系统业务修改完成！交易编号为："+transactionId);
                 }
                 logger.info("4.订单：" + outTradeNo + " 交易完成" + ">>>" + transactionId);
             } else {

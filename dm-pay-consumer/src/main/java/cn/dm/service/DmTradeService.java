@@ -43,4 +43,13 @@ public interface DmTradeService {
     public boolean syncVerifyResult(Map<String, String[]> params) throws Exception;
 
     public void testRabbitMq(DmItemMessageVo dmItemMessageVo) throws Exception;
+
+    /**
+     * 判断订单是否支付过
+     * @param orderNo
+     * @param flag
+     * @return
+     * @throws Exception
+     */
+    public boolean processed(String orderNo, Integer flag) throws Exception;
 }
