@@ -35,7 +35,7 @@ public class DmTradeServiceImpl implements DmTradeService {
     private AlipayConfig alipayConfig;
 
     @Override
-    public Integer insertTrade(String orderNo, String tradeNo) throws Exception {
+    public Integer insertTrade(String orderNo, String tradeNo, Integer payMethod) throws Exception {
         //预留——根据订单编号获取订单信息
         DmOrder dmOrder = loadDmOrderByOrderNo(orderNo);
         //如果订单已经支付则终止后续业务的执行
@@ -48,6 +48,7 @@ public class DmTradeServiceImpl implements DmTradeService {
         dmItemMessageVo.setItemId(dmOrder.getItemId().toString());
         dmItemMessageVo.setUserId(dmOrder.getUserId().toString());
         dmItemMessageVo.setAmount(dmOrder.getTotalAmount());
+        dmItemMessageVo.setPayMethod(payMethod);
         return restDmTradeClient.insertTrade(dmItemMessageVo);
     }
 

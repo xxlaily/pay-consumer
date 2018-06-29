@@ -1,9 +1,6 @@
 package cn.dm.controller;
 
-import cn.dm.common.BaseException;
-import cn.dm.common.Dto;
-import cn.dm.common.DtoUtil;
-import cn.dm.common.EmptyUtils;
+import cn.dm.common.*;
 import cn.dm.config.AlipayConfig;
 import cn.dm.exception.PayErrorCode;
 import cn.dm.pojo.DmOrder;
@@ -173,9 +170,9 @@ public class AliPaymentController {
             boolean verify_result = dmTradeService.syncVerifyResult(requestParams);
             if (verify_result) {//验证成功
                 logger.info("[callback]" + "该笔订单支付成功");
-                if(!dmTradeService.processed(out_trade_no,1)){
+                if(!dmTradeService.processed(out_trade_no, Constants.PayMethod.ZHIFUBAO)){
                     logger.info("[callback]" + "此笔订单未支付过：" + out_trade_no);
-                    dmTradeService.insertTrade(out_trade_no, trade_no);
+                    dmTradeService.insertTrade(out_trade_no, trade_no, Constants.PayMethod.ZHIFUBAO);
                     logger.info("[callback]" + "系统业务处理完成，订单编号为：" + out_trade_no);
                 }
                 String id = dmTradeService.loadDmOrderByOrderNo(out_trade_no).getId().toString();

@@ -70,7 +70,6 @@ public class WxPayController {
         data.put("device_info", "");
         data.put("total_fee", "1");
         data.put("spbill_create_ip", "169.254.193.209");
-//        data.put("notify_url", "http://j19h691179.iok.la:14828/api/wxpay/notify");
         //请求支付接口并返回参数
         Map<String, String> r = wxPayRequest.unifiedorder(data);
         String resultCode = r.get("result_code");
@@ -115,7 +114,7 @@ public class WxPayController {
         Map<String, String> params = null;
         String returnxml = "";
         InputStream inputStream;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         //以字节流的形式读取request中的数据
         inputStream = request.getInputStream();
         String s;
@@ -138,9 +137,9 @@ public class WxPayController {
                 String transactionId = params.get("transaction_id");
                 //获取商户订单号
                 String outTradeNo = params.get("out_trade_no");
-                if (dmTradeService.processed(outTradeNo, 0)) {
+                if (dmTradeService.processed(outTradeNo, Constants.PayMethod.WINXI)) {
                     logger.info("[paymentCallBack]" + "订单" + outTradeNo + "已经支付成功！可以开始修改系统自身业务了");
-                    dmTradeService.insertTrade(outTradeNo, transactionId);
+                    dmTradeService.insertTrade(outTradeNo, transactionId, Constants.PayMethod.WINXI);
                     logger.info("[paymentCallBack]" + "系统业务修改完成！交易编号为："+transactionId);
                 }
                 logger.info("4.订单：" + outTradeNo + " 交易完成" + ">>>" + transactionId);

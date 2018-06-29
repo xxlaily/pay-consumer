@@ -16,7 +16,7 @@ public interface DmTradeService {
      * @return
      * @throws Exception
      */
-    public Integer insertTrade(String orderNo, String tradeNo) throws Exception;
+    public Integer insertTrade(String orderNo, String tradeNo, Integer payMethod) throws Exception;
 
     /**
      * 根据订单编号查询订单信息
