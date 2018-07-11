@@ -44,6 +44,7 @@ logging:
 feign:
   hystrix:
     enabled: false #禁用容错处理
+moduleName: pay_consumer
 
 #配置微信支付的参数
 wxpay:
