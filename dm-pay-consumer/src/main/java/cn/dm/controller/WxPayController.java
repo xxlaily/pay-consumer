@@ -137,9 +137,9 @@ public class WxPayController {
                 String transactionId = params.get("transaction_id");
                 //获取商户订单号
                 String outTradeNo = params.get("out_trade_no");
-                if (dmTradeService.processed(outTradeNo, Constants.PayMethod.WINXI)) {
+                if (dmTradeService.processed(outTradeNo, Constants.PayMethod.WEIXIN)) {
                     logger.info("[paymentCallBack]" + "订单" + outTradeNo + "已经支付成功！可以开始修改系统自身业务了");
-                    dmTradeService.insertTrade(outTradeNo, transactionId, Constants.PayMethod.WINXI);
+                    dmTradeService.insertTrade(outTradeNo, transactionId, Constants.PayMethod.WEIXIN);
                     logger.info("[paymentCallBack]" + "系统业务修改完成！交易编号为："+transactionId);
                 }
                 logger.info("4.订单：" + outTradeNo + " 交易完成" + ">>>" + transactionId);
